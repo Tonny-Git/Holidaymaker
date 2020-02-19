@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -58,15 +59,44 @@ public class Menu {
         }
     }
 
-    private void hotelAttributes() {
+    private ArrayList<String> hotelAttributeChoice(ArrayList<String> hotelChoices) {
+        System.out.println("[1] Pool");
+        System.out.println("[2] Evening entertainment");
+        System.out.println("[3] Kids club");
+        System.out.println("[4] Restaurant");
+        System.out.println("[5] Choose all");
+        //System.out.println("[6] Search"); // Sök
+        System.out.println("[0] Undo Choice"); // ångra valet
+        String answer = scanner.nextLine();
 
+        switch (answer) {
+            case "1":
+                if (!hotelChoices.contains("Pool"))
+                    hotelChoices.add("Pool");
+                break;
+            case "2":
+                if (!hotelChoices.contains("Evening entertainment"))
+                    hotelChoices.add("Evening entertainment");
+                break;
+            case "3":
+                if (!hotelChoices.contains("Kids club"))
+                    hotelChoices.add("Kids club");
+                break;
+            case "4":
+                if (!hotelChoices.contains("Restaurant"))
+                    hotelChoices.add("Restaurant");
+                break;
+            case "5":
+                //
+                break;
+            case "0":
+                //
+                break;
+            default:
+                System.out.println("Wrong input.");
+                break;
+        }
 
-        System.out.println("[1] Pool"); // attribut
-        System.out.println("[2] "); // attribut
-        System.out.println("[3] "); // attribut
-        System.out.println("[4] "); // attribut
-        System.out.println("[5] "); // Välj alla atribut
-        System.out.println("[6] "); // Sök
-        System.out.println("[0] "); // ångra valet
+        return hotelChoices;
     }
 }
