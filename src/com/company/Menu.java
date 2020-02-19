@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
-    Scanner scanner = new Scanner(System.in);
     SqlConsole sqlConsole = new SqlConsole();
 
+    // Ej klara funktioner/switchcases är (1,2,3,4,5)
     public void startMenu() {
         while(true) {
             System.out.println("Please enter an option!");
@@ -16,11 +16,12 @@ public class Menu {
             System.out.println("[4] Change reservation"); // VG fråga
             System.out.println("[5] Additional services");
             System.out.println("[0] Exit program");
-            String answer = scanner.nextLine();
+            String answer = MethodUtilities.scanner.nextLine();
 
             switch (answer) {
                 case "1":
-                    //
+                    ArrayList<String> answers = MethodUtilities.enterAndReturnQuestions("first name", "last name", "email");
+                    sqlConsole.addCustomerToDataBase(answers.get(0), answers.get(1), answers.get(2));
                     break;
                 case "2":
                     reservationMenu();
@@ -29,9 +30,7 @@ public class Menu {
                     //
                     return;
                 default:
-                    System.out.println("Wrong input! Try again!");
-                    System.out.println("Press enter to continue. . .");
-                    scanner.nextLine();
+                    MethodUtilities.waitForPressEnter();
                     break;
             }
         }
@@ -43,7 +42,7 @@ public class Menu {
             System.out.println("Please enter an option!");
             System.out.println("[1]");
             System.out.println("[0] Go back to main Menu");
-            String answer = scanner.nextLine();
+            String answer = MethodUtilities.scanner.nextLine();
 
             switch (answer) {
                 case "1":
@@ -52,9 +51,7 @@ public class Menu {
                 case "0":
                     return;
                 default:
-                    System.out.println("Wrong input! Try again!");
-                    System.out.println("Press enter to continue. . .");
-                    scanner.nextLine();
+                    MethodUtilities.waitForPressEnter();
                     break;
             }
         }
@@ -68,7 +65,7 @@ public class Menu {
         System.out.println("[5] Choose all");
         //System.out.println("[6] Search"); // Sök
         System.out.println("[0] Undo Choice"); // ångra valet
-        String answer = scanner.nextLine();
+        String answer = MethodUtilities.scanner.nextLine();
 
         switch (answer) {
             case "1":

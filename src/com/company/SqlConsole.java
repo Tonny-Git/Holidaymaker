@@ -13,7 +13,6 @@ public class SqlConsole {
 
     public SqlConsole() {
         connect();
-        addCustomerToDataBase("Carl", "Carlsson", "Carl_Carlsson@hotmail.com");
 
         // Test data, ta bort senare.
         //searchByFirstName("Erik");
@@ -56,7 +55,7 @@ public class SqlConsole {
         }
     }
 
-    private void addCustomerToDataBase(String firstName, String lastName, String email) {
+    public void addCustomerToDataBase(String firstName, String lastName, String email) {
         try {
             statement = conn.prepareStatement("INSERT INTO customers(first_name, last_name, email) VALUES(?, ?, ?)");
             statement.setString(1, firstName);
