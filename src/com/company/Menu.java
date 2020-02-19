@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Menu {
     Scanner scanner = new Scanner(System.in);
+    SqlConsole sqlConsole = new SqlConsole();
 
     public void startMenu() {
         while(true) {

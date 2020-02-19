@@ -13,10 +13,13 @@ public class SqlConsole {
 
     public SqlConsole() {
         connect();
-        searchByFirstName("Erik");
-        printSearchResult();
-        searchByFirstName("En");
-        printSearchResult();
+        addCustomerToDataBase("Carl", "Carlsson", "Carl_Carlsson@hotmail.com");
+
+        // Test data, ta bort senare.
+        //searchByFirstName("Erik");
+        //printSearchResult();
+        //searchByFirstName("En");
+        //printSearchResult();
     }
 
     private void connect() {
@@ -27,6 +30,7 @@ public class SqlConsole {
         }
     }
 
+    // Test data, ta bort/ändra
     private void searchByFirstName(String firstname) {
         try {
             statement = conn.prepareStatement("SELECT * FROM customers WHERE first_name LIKE (?)");
@@ -38,6 +42,7 @@ public class SqlConsole {
         }
     }
 
+    // Test data, ta bort/ändra
     private  void printSearchResult() {
         try {
             while (resultSet.next()) {
@@ -46,6 +51,19 @@ public class SqlConsole {
                             ", email: " + resultSet.getString("email") + ".";
                 System.out.println(row);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addCustomerToDataBase(String firstName, String lastName, String email) {
+        try {
+            statement = conn.prepareStatement("INSERT INTO customers(first_name, last_name, email) VALUES(?, ?, ?)");
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, email);
+            statement.executeUpdate();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
