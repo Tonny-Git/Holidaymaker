@@ -7,7 +7,6 @@ public class MethodUtilities {
     public static Scanner scanner = new Scanner(System.in);
 
     private MethodUtilities() {
-
     }
 
     public static void waitForPressEnter() {

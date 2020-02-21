@@ -67,4 +67,34 @@ public class SqlConsole {
             e.printStackTrace();
         }
     }
+
+    //'Pool', 'Restaurant', 'Evening entertainment', 'Kids club'
+    public void searchHotels(String firstname) {
+        try {
+            statement = conn.prepareStatement("SELECT *, COUNT(h.id) >= ? AS boolean_value FROM hotels h JOIN hotels_x_hotel_informations hi ON hi.hotels_id = h.id JOIN hotel_informations i ON hi.hotel_informations_id = i.id WHERE information IN (?, ?, ?, ?) GROUP BY h.id ORDER BY h.id");
+            statement.setString(1, "2");
+            statement.setString(2, "Pool");
+            statement.setString(3, "Restaurant");
+            statement.setString(4, "");
+            statement.setString(5, "");
+
+            resultSet = statement.executeQuery();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public   void printHotelSearchResult() {
+        try {
+            while (resultSet.next()) {
+                String row = "hotels_id: " + resultSet.getString("hotels_id") +
+                        ", name: " + resultSet.getString("name") +
+                        ", boolean_value: " + resultSet.getString("boolean_value") + ".";
+                System.out.println(row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
