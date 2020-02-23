@@ -65,12 +65,12 @@ public class SqlConsole {
             statement.setString(3, email);
             statement.executeUpdate();
 
-            statement = conn.prepareStatement("SELECT id FROM customers WHERE email = ?");
+            statement = conn.prepareStatement("SELECT id, rooms_x_room_rent_dates_id FROM customers WHERE email = ?");
             statement.setString(1, email);
             currentCustomer = statement.executeQuery();
         } catch (java.sql.SQLIntegrityConstraintViolationException e){
             try {
-                statement = conn.prepareStatement("SELECT id FROM customers WHERE email = ?");
+                statement = conn.prepareStatement("SELECT id, rooms_x_room_rent_dates_id FROM customers WHERE email = ?");
                 statement.setString(1, email);
                 currentCustomer = statement.executeQuery();
                 System.out.println("User was fetched from the database");
@@ -182,5 +182,84 @@ public class SqlConsole {
             e.printStackTrace();
         }
         return hotelId;
+    }
+
+    public void rentRoom() {
+        String answer;
+        String customerId = null;
+        try {
+            while (currentCustomer.next()) {
+                customerId = currentCustomer.getString("id");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        int i = 0;
+        try {
+            answer = MethodUtilities.enterAndReturnQuestions("an option or press 0 to exit").get(0);
+            while (resultSet.next()) {
+                i++;
+                if (answer.equals((i+""))) {
+                    answer = resultSet.getString("room_rent_id");
+                }
+                resultSet.getString("room_rent_id");
+            }
+        } catch (Exception e) {
+            System.out.println("This is not an number");
+            return;
+        }
+        if(currentCustomer != null) {
+            try {
+                statement = conn.prepareStatement("UPDATE customers c SET c.rooms_x_room_rent_dates_id = ? WHERE c.id = ?");
+                statement.setString(1, answer);
+                statement.setString(2, customerId);
+                statement.executeUpdate();
+
+
+                statement = conn.prepareStatement("UPDATE rooms_x_room_rent_dates rd SET rd.is_available = 0 WHERE rd.id = ?");
+                statement.setString(1, answer);
+                statement.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Please pick an customer first!");
+        }
+    }
+
+    public void cancelReservation() {
+        String customerId = null;
+        String rentedRoomId = null;
+        if (currentCustomer == null) {
+            System.out.println("Please pick a customer first!");
+            return;
+        }
+        try {
+            while (currentCustomer.next()) {
+                customerId = currentCustomer.getString("id");
+                rentedRoomId = currentCustomer.getString("rooms_x_room_rent_dates_id");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        if (customerId != null) {
+            try {
+                statement = conn.prepareStatement("UPDATE customers c SET c.rooms_x_room_rent_dates_id = ? WHERE c.id = ?");
+                statement.setString(1, null);
+                statement.setString(2, customerId);
+                statement.executeUpdate();
+
+
+                statement = conn.prepareStatement("UPDATE rooms_x_room_rent_dates rd SET rd.is_available = 1 WHERE rd.id = ?");
+                statement.setString(1, rentedRoomId);
+                statement.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("The customer haven't rented a room");
+        }
     }
 }

@@ -5,15 +5,12 @@ import java.util.ArrayList;
 public class Menu {
     SqlConsole sqlConsole = new SqlConsole();
 
-    // Ej klara funktioner/switchcases är (1,2,3,4,5)
     public void startMenu() {
         while(true) {
             System.out.println("Please enter an option!");
-            System.out.println("[1] Register customer"); // Funkar men jobba vidare...
-            System.out.println("[2] Search after available rooms"); // Jobbar på denna
-            System.out.println("[3] Cancel reservation");
-            //System.out.println("[4] Change reservation"); // VG fråga
-            //System.out.println("[5] Additional services"); // VG fråga
+            System.out.println("[1] Register / find customer");
+            System.out.println("[2] Search after available rooms");
+            System.out.println("[3] Cancel reservation"); // Jobbar på denna
             System.out.println("[0] Exit program");
             String answer = MethodUtilities.scanner.nextLine();
 
@@ -25,8 +22,10 @@ public class Menu {
                 case "2":
                     reservationMenu();
                     break;
+                case "3":
+                    sqlConsole.cancelReservation();
+                    break;
                 case "0":
-                    //
                     return;
                 default:
                     MethodUtilities.waitForPressEnter();
@@ -46,8 +45,6 @@ public class Menu {
             System.out.println("Please enter an option to specify search and then press search!");
             System.out.println("[1] Search");
             System.out.println("[2] Hotel information");
-            System.out.println("[3] Date");
-            //System.out.println("[4] Additional services"); // VG fråga
             System.out.println("[0] Go back to main Menu");
             String answer = MethodUtilities.scanner.nextLine();
 
@@ -57,7 +54,7 @@ public class Menu {
                     ArrayList<String> answers = MethodUtilities.enterAndReturnQuestions("start Date (example: 2020-06-02)", "end Date (example: 2020-06-20)", "amount of travelers");
                     sqlConsole.searchAfterRooms(answers.get(0), answers.get(1), answers.get(2));
                     sqlConsole.printRoomSearchResult();
-                    answer = MethodUtilities.enterAndReturnQuestions("an option or press 0 to exit").get(0);
+                    sqlConsole.rentRoom();
                     return;
                 case "2":
                     hotelInformation = hotelAttributeChoice(hotelInformation);
