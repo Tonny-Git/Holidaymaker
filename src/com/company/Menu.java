@@ -12,8 +12,8 @@ public class Menu {
             System.out.println("[1] Register customer"); // Funkar men jobba vidare...
             System.out.println("[2] Search after available rooms"); // Jobbar på denna
             System.out.println("[3] Cancel reservation");
-            System.out.println("[4] Change reservation"); // VG fråga
-            System.out.println("[5] Additional services"); // VG fråga
+            //System.out.println("[4] Change reservation"); // VG fråga
+            //System.out.println("[5] Additional services"); // VG fråga
             System.out.println("[0] Exit program");
             String answer = MethodUtilities.scanner.nextLine();
 
@@ -37,18 +37,30 @@ public class Menu {
 
     // Ska lista upp olika sök alternativ
     private void reservationMenu() {
+        ArrayList<String> hotelInformation = new ArrayList<>();
+        hotelInformation.add("");
+        hotelInformation.add("");
+        hotelInformation.add("");
+        hotelInformation.add("");
         while(true) {
             System.out.println("Please enter an option to specify search and then press search!");
             System.out.println("[1] Search");
             System.out.println("[2] Hotel information");
             System.out.println("[3] Date");
-            System.out.println("[4] Additional services"); // VG fråga
+            //System.out.println("[4] Additional services"); // VG fråga
             System.out.println("[0] Go back to main Menu");
             String answer = MethodUtilities.scanner.nextLine();
 
             switch (answer) {
                 case "1":
-                    //
+                    sqlConsole.searchHotels(hotelInformation);
+                    ArrayList<String> answers = MethodUtilities.enterAndReturnQuestions("start Date (example: 2020-06-02)", "end Date (example: 2020-06-20)", "amount of travelers");
+                    sqlConsole.searchAfterRooms(answers.get(0), answers.get(1), answers.get(2));
+                    sqlConsole.printRoomSearchResult();
+                    answer = MethodUtilities.enterAndReturnQuestions("an option or press 0 to exit").get(0);
+                    return;
+                case "2":
+                    hotelInformation = hotelAttributeChoice(hotelInformation);
                     break;
                 case "0":
                     return;
@@ -65,32 +77,33 @@ public class Menu {
         System.out.println("[3] Kids club");
         System.out.println("[4] Restaurant");
         System.out.println("[5] Choose all");
-        System.out.println("[6] Undo Choice");
-        System.out.println("[0] Go Back"); // ta bort?
+        System.out.println("[0] Undo Choice");
         String answer = MethodUtilities.scanner.nextLine();
 
         switch (answer) {
             case "1":
-                if (!hotelChoices.contains("Pool"))
-                    hotelChoices.add("Pool");
+                hotelChoices.set(0, "Pool");
                 break;
             case "2":
-                if (!hotelChoices.contains("Evening entertainment"))
-                    hotelChoices.add("Evening entertainment");
+                hotelChoices.set(1, "Evening entertainment");
                 break;
             case "3":
-                if (!hotelChoices.contains("Kids club"))
-                    hotelChoices.add("Kids club");
+                hotelChoices.set(2, "Kids club");
                 break;
             case "4":
-                if (!hotelChoices.contains("Restaurant"))
-                    hotelChoices.add("Restaurant");
+                hotelChoices.set(3, "Restaurant");
                 break;
             case "5":
-                //
+                hotelChoices.set(0, "Pool");
+                hotelChoices.set(1, "Evening entertainment");
+                hotelChoices.set(2, "Kids club");
+                hotelChoices.set(3, "Restaurant");
                 break;
             case "0":
-                //
+                hotelChoices.set(0, "");
+                hotelChoices.set(1, "");
+                hotelChoices.set(2, "");
+                hotelChoices.set(3, "");
                 break;
             default:
                 System.out.println("Wrong input.");
@@ -98,5 +111,18 @@ public class Menu {
         }
 
         return hotelChoices;
+    }
+
+
+    // TA bort???
+    private void chooseHotel() {
+        System.out.println("Please choose an hotel");
+        ArrayList<String> hotelID = sqlConsole.printHotelSearchResult();
+        String answer = MethodUtilities.scanner.nextLine();
+        try {
+
+        } catch (Exception e) {
+
+        }
     }
 }
