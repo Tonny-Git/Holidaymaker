@@ -255,6 +255,7 @@ public class SqlConsole {
                 statement = conn.prepareStatement("UPDATE rooms_x_room_rent_dates rd SET rd.is_available = 1 WHERE rd.id = ?");
                 statement.setString(1, rentedRoomId);
                 statement.executeUpdate();
+                System.out.println("Reservation was canceled!");
             } catch (Exception e) {
                 e.printStackTrace();
             }
